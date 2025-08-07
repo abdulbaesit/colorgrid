@@ -40,8 +40,24 @@ export const AuthProvider = ({ children }) => {
 
         const socket = io(import.meta.env.VITE_API_URL || 'http://localhost:8000', {
             withCredentials: true,
-            auth: { token: localStorage.getItem('token') }
+            auth: { token: localStorage.getItem('token') },
+            transports: ['websocket', 'polling'],
+            timeout: 20000,
+            forceNew: true
         });
+
+        socket.on('connect', () => {
+            console.log('Socket connected successfully');
+        });
+
+        socket.on('connect_error', (error) => {
+            console.error('Socket connection error:', error);
+        });
+
+        socket.on('disconnect', (reason) => {
+            console.log('Socket disconnected:', reason);
+        });
+
         socket.on('update_coins', async () => {
             try {
                 const res = await axios.get('/api/users/me');

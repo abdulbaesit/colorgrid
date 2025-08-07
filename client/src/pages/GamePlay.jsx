@@ -21,7 +21,10 @@ const GamePlay = () => {
             withCredentials: true,
             auth: {
                 token: localStorage.getItem('token')
-            }
+            },
+            transports: ['websocket', 'polling'],
+            timeout: 20000,
+            forceNew: true
         });
 
         // Join game room
