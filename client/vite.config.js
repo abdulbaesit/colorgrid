@@ -4,7 +4,17 @@ import path from 'path';
 
 export default defineConfig({
     plugins: [react()],
-    base: '/colorgrid/', // GitHub Pages base path
+    base: '/colorgrid/',
+    build: {
+        outDir: 'dist',
+        assetsDir: 'assets',
+        sourcemap: false,
+        rollupOptions: {
+            output: {
+                manualChunks: undefined,
+            },
+        },
+    },
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './src'),
