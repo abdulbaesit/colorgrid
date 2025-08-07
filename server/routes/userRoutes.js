@@ -73,6 +73,32 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// Temporary password reset endpoint
+router.post('/reset-password', async (req, res) => {
+    try {
+        const { username, newPassword } = req.body;
+
+        // Find user
+        const user = await User.findOne({ username });
+        if (!user) {
+            return res.status(400).json({ message: 'User not found' });
+        }
+
+        // Hash new password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+        // Update password
+        user.password = hashedPassword;
+        await user.save();
+
+        res.json({ message: 'Password reset successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
 // Get user profile
 router.get('/profile', protect, async (req, res) => {
     try {

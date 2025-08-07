@@ -160,7 +160,7 @@ const startServer = async () => {
   try {
     console.log('Connecting to MongoDB...');
     console.log('MongoDB URI:', process.env.MONGODB_URI ? 'URI is set' : 'URI is missing');
-    
+
     await connectDB();
     console.log('MongoDB connected successfully');
 
@@ -172,7 +172,7 @@ const startServer = async () => {
   } catch (error) {
     console.error('Failed to start server:', error.message);
     console.error('Full error:', error);
-    
+
     // Don't exit immediately, let Render retry
     setTimeout(() => {
       console.log('Retrying server start...');
