@@ -79,14 +79,14 @@ function Navbar() {
                                     <div className="absolute right-0 mt-2 w-48 backdrop-blur-lg bg-white/90 dark:bg-gray-800/90 rounded-xl shadow-xl border border-white/50 dark:border-gray-700/50 py-2 z-50">
                                         <Link
                                             to="/update-profile"
-                                            className="block px-4 py-3 text-sm text-gray-800 dark:text-gray-200 hover:bg-emerald-500/20 dark:hover:bg-emerald-500/20 transition-colors duration-200"
+                                            className="block px-4 py-3 text-sm text-gray-800 dark:text-gray-200 bg-transparent dark:bg-gray-700/40 hover:bg-emerald-500/20 dark:hover:bg-emerald-500/20 transition-colors duration-200"
                                             onClick={() => setIsMenuOpen(false)}
                                         >
                                             Update Profile
                                         </Link>
                                         <button
                                             onClick={handleLogout}
-                                            className="block w-full text-left px-4 py-3 text-sm text-gray-800 dark:text-gray-200 hover:bg-red-500/20 dark:hover:bg-red-500/20 transition-colors duration-200"
+                                            className="block w-full text-left px-4 py-3 text-sm text-gray-800 dark:text-gray-200 bg-transparent dark:bg-gray-700/40 hover:bg-red-500/20 dark:hover:bg-red-500/20 transition-colors duration-200"
                                         >
                                             Logout
                                         </button>
