@@ -48,7 +48,7 @@ const corsOptions = {
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
-    
+
     // More permissive check for GitHub Pages
     if (origin && origin.includes('abdulbaesit.github.io')) {
       return callback(null, true);
@@ -70,7 +70,22 @@ const corsOptions = {
 // Socket.IO setup
 const io = new Server(httpServer, {
   cors: {
-    origin: allowedOrigins,
+    origin: function (origin, callback) {
+      // Allow requests with no origin
+      if (!origin) return callback(null, true);
+      
+      // Allow GitHub Pages
+      if (origin && origin.includes('abdulbaesit.github.io')) {
+        return callback(null, true);
+      }
+      
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      
+      console.log('Socket.io CORS blocked origin:', origin);
+      callback(null, false);
+    },
     methods: ["GET", "POST"],
     credentials: true
   }

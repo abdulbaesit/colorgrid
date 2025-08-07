@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        if (isDemoMode) return; // Skip socket connection in demo mode
+        if (isDemoMode || !user) return; // Skip socket connection in demo mode OR when not logged in
 
         const socket = io(import.meta.env.VITE_API_URL || 'http://localhost:8000', {
             withCredentials: true,
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
             }
         });
         return () => socket.disconnect();
-    }, []);
+    }, [user]); // Add user as dependency
 
     const fetchUser = async () => {
         try {
