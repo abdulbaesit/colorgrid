@@ -1,15 +1,25 @@
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 function Welcome() {
+    const { isDemoMode } = useAuth();
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-emerald-400 via-cyan-500 to-indigo-600 dark:from-gray-900 dark:via-slate-800 dark:to-gray-900 relative overflow-hidden">
+            {/* Demo notice banner */}
+            {isDemoMode && (
+                <div className="absolute top-0 left-0 right-0 bg-yellow-500 dark:bg-yellow-600 text-white px-4 py-2 text-center text-sm font-medium z-50">
+                    🚀 Demo Mode: Frontend-only showcase. Full multiplayer features require backend deployment.
+                </div>
+            )}
+
             {/* Animated background elements */}
             <div className="absolute inset-0">
                 <div className="absolute top-1/4 left-1/4 w-32 h-32 md:w-48 md:h-48 bg-gradient-to-r from-pink-300 to-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-pulse"></div>
                 <div className="absolute top-3/4 right-1/4 w-32 h-32 md:w-48 md:h-48 bg-gradient-to-r from-cyan-300 to-green-300 rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-pulse animation-delay-2000"></div>
             </div>
 
-            <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-8">
+            <div className={`relative z-10 min-h-screen flex items-center justify-center px-4 py-8 ${isDemoMode ? 'pt-16' : ''}`}>
                 <div className="max-w-2xl w-full mx-auto text-center">
                     <div className="backdrop-blur-lg bg-white/20 dark:bg-gray-900/20 rounded-2xl shadow-xl border border-white/30 dark:border-gray-700/30 p-6 md:p-8">
                         {/* Game icon/logo area */}
