@@ -32,7 +32,7 @@ function Home() {
                                     <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-emerald-600 via-cyan-600 to-indigo-600 bg-clip-text text-transparent mb-2 tracking-tight">
                                         ColorGrid
                                     </h1>
-                                    <div className="flex items-center space-x-3 p-3 rounded-xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
+                                    <div className="flex items-center space-x-3 p-3 rounded-xl bg-white/80 dark:bg-gray-900/90 backdrop-blur-sm">
                                         {user?.profilePicture &&
                                             user.profilePicture !== '' &&
                                             !user.profilePicture.includes('placeholder') &&

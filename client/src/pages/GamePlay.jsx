@@ -353,79 +353,79 @@ const GamePlay = () => {
                             ) : game.status === 'completed' ? (
                                 <div className="bg-gray-50/80 dark:bg-gray-800/80 rounded-lg p-6 backdrop-blur-sm">
                                     <p className="text-xl font-bold mb-2 text-gray-900 dark:text-white">
-                                    {game.forfeit
-                                        ? "Game Over - Forfeit"
-                                        : game.result === 'draw'
-                                            ? "It's a draw!"
-                                            : game.winner && user && game.winner.toString() === user._id
-                                                ? '🎉 Congratulations! You won! 🎉'
-                                                : 'Game Over! You lost!'}
-                                </p>
-                                <p className="text-lg text-gray-900 dark:text-white mb-2">
-                                    {game.endMessage}
-                                </p>
-                                {!game.forfeit && game.player1Area !== undefined && game.player2Area !== undefined && (
-                                    <div className="text-md text-gray-600 dark:text-gray-300 space-y-1">
-                                        <p>Player 1 Area: {game.player1Area} cells</p>
-                                        <p>Player 2 Area: {game.player2Area} cells</p>
-                                    </div>
+                                        {game.forfeit
+                                            ? "Game Over - Forfeit"
+                                            : game.result === 'draw'
+                                                ? "It's a draw!"
+                                                : game.winner && user && game.winner.toString() === user._id
+                                                    ? '🎉 Congratulations! You won! 🎉'
+                                                    : 'Game Over! You lost!'}
+                                    </p>
+                                    <p className="text-lg text-gray-900 dark:text-white mb-2">
+                                        {game.endMessage}
+                                    </p>
+                                    {!game.forfeit && game.player1Area !== undefined && game.player2Area !== undefined && (
+                                        <div className="text-md text-gray-600 dark:text-gray-300 space-y-1">
+                                            <p>Player 1 Area: {game.player1Area} cells</p>
+                                            <p>Player 2 Area: {game.player2Area} cells</p>
+                                        </div>
+                                    )}
+                                </div>
+                            ) : null}
+                        </div>
+
+                        {/* Game Board */}
+                        <div>
+                            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Game Board</h2>
+                            <div className="grid grid-cols-5 gap-2 max-w-md mx-auto mb-6">
+                                {game.grid.map((row, rowIndex) =>
+                                    row.map((cell, colIndex) => (
+                                        <button
+                                            key={`${rowIndex}-${colIndex}`}
+                                            onClick={() => makeMove(rowIndex, colIndex)}
+                                            disabled={!isCurrentTurn || game.status !== 'in_progress'}
+                                            className={`aspect-square rounded-lg border-2 border-gray-200 transition-all duration-300 ${!isCurrentTurn || game.status !== 'in_progress'
+                                                ? 'cursor-not-allowed'
+                                                : 'cursor-pointer hover:scale-105'
+                                                } ${game.lastMove &&
+                                                    game.lastMove.row === rowIndex &&
+                                                    game.lastMove.col === colIndex
+                                                    ? 'ring-4 ring-yellow-400'
+                                                    : ''
+                                                }`}
+                                            style={{
+                                                backgroundColor: cell || 'white',
+                                                transform: game.lastMove &&
+                                                    game.lastMove.row === rowIndex &&
+                                                    game.lastMove.col === colIndex
+                                                    ? 'scale(1.05)'
+                                                    : 'scale(1)',
+                                                transition: 'all 0.3s ease'
+                                            }}
+                                        />
+                                    ))
                                 )}
                             </div>
-                        ) : null}
-                    </div>
-
-                    {/* Game Board */}
-                    <div>
-                        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Game Board</h2>
-                        <div className="grid grid-cols-5 gap-2 max-w-md mx-auto mb-6">
-                            {game.grid.map((row, rowIndex) =>
-                                row.map((cell, colIndex) => (
-                                    <button
-                                        key={`${rowIndex}-${colIndex}`}
-                                        onClick={() => makeMove(rowIndex, colIndex)}
-                                        disabled={!isCurrentTurn || game.status !== 'in_progress'}
-                                        className={`aspect-square rounded-lg border-2 border-gray-200 transition-all duration-300 ${!isCurrentTurn || game.status !== 'in_progress'
-                                            ? 'cursor-not-allowed'
-                                            : 'cursor-pointer hover:scale-105'
-                                            } ${game.lastMove &&
-                                                game.lastMove.row === rowIndex &&
-                                                game.lastMove.col === colIndex
-                                                ? 'ring-4 ring-yellow-400'
-                                                : ''
-                                            }`}
-                                        style={{
-                                            backgroundColor: cell || 'white',
-                                            transform: game.lastMove &&
-                                                game.lastMove.row === rowIndex &&
-                                                game.lastMove.col === colIndex
-                                                ? 'scale(1.05)'
-                                                : 'scale(1)',
-                                            transition: 'all 0.3s ease'
-                                        }}
-                                    />
-                                ))
-                            )}
                         </div>
-                    </div>
 
-                    {/* Current Turn Status */}
-                    <div className="text-center mb-8">
-                        <span className="inline-block px-4 py-2 rounded-lg text-lg font-semibold bg-blue-100/80 dark:bg-blue-900/80 text-blue-800 dark:text-blue-200 backdrop-blur-sm">
-                            {getStatusMessage()}
-                        </span>
-                    </div>
-
-                    {/* Game Actions */}
-                    {game.status === 'completed' && (
-                        <div className="text-center">
-                            <button
-                                onClick={() => navigate('/newgame/waiting')}
-                                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300"
-                            >
-                                Play Again
-                            </button>
+                        {/* Current Turn Status */}
+                        <div className="text-center mb-8">
+                            <span className="inline-block px-4 py-2 rounded-lg text-lg font-semibold bg-blue-100/80 dark:bg-blue-900/80 text-blue-800 dark:text-blue-200 backdrop-blur-sm">
+                                {getStatusMessage()}
+                            </span>
                         </div>
-                    )}
+
+                        {/* Game Actions */}
+                        {game.status === 'completed' && (
+                            <div className="text-center">
+                                <button
+                                    onClick={() => navigate('/newgame/waiting')}
+                                    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300"
+                                >
+                                    Play Again
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
