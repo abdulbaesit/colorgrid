@@ -73,16 +73,16 @@ const io = new Server(httpServer, {
     origin: function (origin, callback) {
       // Allow requests with no origin
       if (!origin) return callback(null, true);
-      
+
       // Allow GitHub Pages
       if (origin && origin.includes('abdulbaesit.github.io')) {
         return callback(null, true);
       }
-      
+
       if (allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
-      
+
       console.log('Socket.io CORS blocked origin:', origin);
       callback(null, false);
     },
@@ -133,8 +133,8 @@ app.use('/api/games', gameRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-  res.status(200).json({ 
-    status: 'OK', 
+  res.status(200).json({
+    status: 'OK',
     message: 'Server is running',
     environment: process.env.NODE_ENV || 'development',
     mongoConnection: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
@@ -143,7 +143,7 @@ app.get('/health', (req, res) => {
 
 // Root endpoint
 app.get('/', (req, res) => {
-  res.status(200).json({ 
+  res.status(200).json({
     message: 'ColorGrid API Server',
     status: 'running'
   });
@@ -158,15 +158,26 @@ io.on('connection', (socket) => {
 // Connect to MongoDB and start server
 const startServer = async () => {
   try {
+    console.log('Connecting to MongoDB...');
+    console.log('MongoDB URI:', process.env.MONGODB_URI ? 'URI is set' : 'URI is missing');
+    
     await connectDB();
+    console.log('MongoDB connected successfully');
 
     const PORT = process.env.PORT || 8000;
-    httpServer.listen(PORT, () => {
+    httpServer.listen(PORT, '0.0.0.0', () => {
       console.log(`Server is running on port ${PORT}`);
+      console.log('Environment:', process.env.NODE_ENV || 'development');
     });
   } catch (error) {
-    console.error('Failed to start server:', error);
-    process.exit(1);
+    console.error('Failed to start server:', error.message);
+    console.error('Full error:', error);
+    
+    // Don't exit immediately, let Render retry
+    setTimeout(() => {
+      console.log('Retrying server start...');
+      startServer();
+    }, 5000);
   }
 };
 
