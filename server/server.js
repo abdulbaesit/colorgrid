@@ -71,15 +71,22 @@ const corsOptions = {
 const io = new Server(httpServer, {
   cors: {
     origin: function (origin, callback) {
-      // Allow requests with no origin
-      if (!origin) return callback(null, true);
+      console.log('Socket.IO CORS check for origin:', origin);
+      
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) {
+        console.log('Allowing request with no origin');
+        return callback(null, true);
+      }
 
       // Allow GitHub Pages
       if (origin && origin.includes('abdulbaesit.github.io')) {
+        console.log('Allowing GitHub Pages origin');
         return callback(null, true);
       }
 
       if (allowedOrigins.includes(origin)) {
+        console.log('Allowing whitelisted origin');
         return callback(null, true);
       }
 
@@ -87,8 +94,11 @@ const io = new Server(httpServer, {
       callback(null, false);
     },
     methods: ["GET", "POST"],
-    credentials: true
-  }
+    credentials: true,
+    allowEIO3: true
+  },
+  allowEIO3: true,
+  transports: ['websocket', 'polling']
 });
 
 // Make io accessible to routes
@@ -102,28 +112,36 @@ app.use(express.json());
 io.use(async (socket, next) => {
   try {
     const token = socket.handshake.auth?.token;
-    console.log('Auth attempt with token:', token ? 'Token present' : 'No token');
+    console.log('Socket auth attempt:', {
+      hasToken: !!token,
+      origin: socket.handshake.headers.origin,
+      socketId: socket.id
+    });
 
     if (!token) {
-      console.log('Authentication error: No token provided');
-      return next(new Error('Authentication error'));
+      console.log('Authentication error: No token provided for socket', socket.id);
+      return next(new Error('Authentication error: No token provided'));
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log('Token decoded:', decoded);
+    console.log('Token decoded successfully for user ID:', decoded.id);
 
     const user = await User.findById(decoded.id).select('-password');
     if (!user) {
-      console.log('Authentication error: User not found');
-      return next(new Error('Authentication error'));
+      console.log('Authentication error: User not found for ID:', decoded.id);
+      return next(new Error('Authentication error: User not found'));
     }
 
     socket.user = user;
-    console.log('Socket authenticated for user:', user.username);
+    console.log('Socket authenticated successfully for user:', user.username, 'Socket ID:', socket.id);
     next();
   } catch (error) {
-    console.error('Socket authentication error:', error);
-    next(new Error('Authentication error'));
+    console.error('Socket authentication error:', {
+      error: error.message,
+      socketId: socket.id,
+      origin: socket.handshake.headers.origin
+    });
+    next(new Error(`Authentication error: ${error.message}`));
   }
 });
 
@@ -149,10 +167,23 @@ app.get('/', (req, res) => {
   });
 });
 
-// Socket.io connection
+// Socket.io connection and error handling
 io.on('connection', (socket) => {
   console.log('New client connected:', socket.user.username, 'Socket ID:', socket.id);
   handleSocketConnection(io, socket);
+});
+
+io.on('connect_error', (error) => {
+  console.error('Socket.IO connect_error:', error);
+});
+
+io.engine.on('connection_error', (err) => {
+  console.error('Socket.IO connection_error:', {
+    message: err.message,
+    description: err.description,
+    context: err.context,
+    type: err.type
+  });
 });
 
 // Connect to MongoDB and start server
