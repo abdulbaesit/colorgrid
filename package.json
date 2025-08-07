@@ -1,0 +1,37 @@
+{
+  "name": "colorgrid",
+  "version": "1.0.0",
+  "description": "A real-time multiplayer puzzle strategy game built with React, Node.js, Express, Socket.io, and MongoDB.",
+  "main": "server/server.js",
+  "scripts": {
+    "install-server": "cd server && npm install",
+    "install-client": "cd client && npm install",
+    "install-all": "npm run install-server && npm run install-client",
+    "start-server": "cd server && npm start",
+    "start-client": "cd client && npm run dev",
+    "dev-server": "cd server && npm run dev",
+    "build-client": "cd client && npm run build",
+    "setup": "npm run install-all",
+    "dev": "echo 'Run npm run dev-server and npm run start-client in separate terminals'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abdulbaesit/colorgrid.git"
+  },
+  "keywords": [
+    "game",
+    "multiplayer",
+    "strategy",
+    "react",
+    "nodejs",
+    "socket.io",
+    "mongodb",
+    "real-time"
+  ],
+  "author": "Abdul Basit",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/abdulbaesit/colorgrid/issues"
+  },
+  "homepage": "https://github.com/abdulbaesit/colorgrid#readme"
+}
