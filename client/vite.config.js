@@ -4,6 +4,7 @@ import path from 'path';
 
 export default defineConfig({
     plugins: [react()],
+    base: '/colorgrid/', // GitHub Pages base path
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './src'),
@@ -20,4 +21,4 @@ export default defineConfig({
             },
         },
     },
-}); 
+});

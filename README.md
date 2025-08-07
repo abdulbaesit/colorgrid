@@ -2,6 +2,11 @@
 
 A real-time multiplayer puzzle strategy game built with React, Node.js, Express, Socket.io, and MongoDB.
 
+## 🌐 Live Demo
+
+**GitHub Pages Demo**: [https://abdulbaesit.github.io/colorgrid](https://abdulbaesit.github.io/colorgrid)  
+*Note: This is a frontend-only showcase. For full multiplayer functionality, see deployment instructions below.*
+
 ## 🎯 Game Overview
 
 ColorGrid is an exciting multiplayer strategy game where players compete to claim the largest area on a 5x5 grid. Players take turns placing colored tiles and use strategic thinking to maximize their territory while blocking opponents.
@@ -139,17 +144,30 @@ colorgrid/
 
 ## 🌐 Deployment
 
+### Full-Stack Deployment (Recommended)
+
+For the complete multiplayer experience, deploy to platforms that support full-stack applications:
+
+#### Backend Options:
+- **Heroku**: Easy deployment with git
+- **Railway**: Modern deployment platform
+- **Render**: Free tier available
+- **DigitalOcean**: App Platform
+
+#### Frontend Options:
+- **Vercel**: Optimized for React
+- **Netlify**: Great for static sites
+- **Deploy with backend**: Single platform deployment
+
+### GitHub Pages (Demo Only)
+
+The GitHub Pages version at [abdulbaesit.github.io/colorgrid](https://abdulbaesit.github.io/colorgrid) is a frontend-only showcase. See [docs/GITHUB_PAGES.md](docs/GITHUB_PAGES.md) for details.
+
 ### MongoDB Atlas Setup
 1. Create a MongoDB Atlas account
 2. Create a new cluster
 3. Get your connection string
 4. Update the `MONGODB_URI` in your `.env` file
-
-### Environment Variables
-Make sure to set up the following environment variables for production:
-- `MONGODB_URI`: Your MongoDB connection string
-- `JWT_SECRET`: A secure random string for JWT tokens
-- `PORT`: Server port (default: 8000)
 
 ## 🤝 Contributing
 
