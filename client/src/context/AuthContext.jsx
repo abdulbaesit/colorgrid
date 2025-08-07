@@ -13,7 +13,7 @@ export const useAuth = () => {
 };
 
 // Check if we're in demo mode (GitHub Pages without backend)
-const isDemoMode = !import.meta.env.VITE_API_URL && window.location.hostname === 'abdulbaesit.github.io';
+const isDemoMode = false; // Force backend mode since we have VITE_API_URL set
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
