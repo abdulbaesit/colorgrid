@@ -39,14 +39,15 @@ const httpServer = createServer(app);
 // Configure CORS for both Express and Socket.IO
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://abdulbaesit.github.io"
+  "https://abdulbaesit.github.io",
+  process.env.FRONTEND_URL || "https://abdulbaesit.github.io"
 ];
 
 const corsOptions = {
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
-    
+
     if (allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
