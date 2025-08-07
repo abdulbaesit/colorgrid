@@ -131,6 +131,24 @@ io.use(async (socket, next) => {
 app.use('/api/users', userRoutes);
 app.use('/api/games', gameRoutes);
 
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'OK', 
+    message: 'Server is running',
+    environment: process.env.NODE_ENV || 'development',
+    mongoConnection: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+  });
+});
+
+// Root endpoint
+app.get('/', (req, res) => {
+  res.status(200).json({ 
+    message: 'ColorGrid API Server',
+    status: 'running'
+  });
+});
+
 // Socket.io connection
 io.on('connection', (socket) => {
   console.log('New client connected:', socket.user.username, 'Socket ID:', socket.id);
