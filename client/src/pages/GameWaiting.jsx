@@ -24,7 +24,7 @@ const GameWaiting = () => {
 
         console.log('Initializing socket connection with token:', token ? 'Token present' : 'No token');
 
-        socketRef.current = io('http://localhost:8000', {
+        socketRef.current = io(import.meta.env.VITE_API_URL || 'http://localhost:8000', {
             withCredentials: true,
             auth: {
                 token: token

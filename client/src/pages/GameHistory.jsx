@@ -15,7 +15,7 @@ function GameHistory() {
 
     const fetchGames = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/games/history');
+            const response = await axios.get('/api/games/history');
             setGames(response.data);
             console.log('Raw games data:', response.data);
         } catch (error) {

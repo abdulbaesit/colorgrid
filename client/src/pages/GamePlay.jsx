@@ -17,7 +17,7 @@ const GamePlay = () => {
         let isMounted = true;
 
         // Initialize socket connection
-        socketRef.current = io('http://localhost:8000', {
+        socketRef.current = io(import.meta.env.VITE_API_URL || 'http://localhost:8000', {
             withCredentials: true,
             auth: {
                 token: localStorage.getItem('token')
