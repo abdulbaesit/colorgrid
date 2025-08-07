@@ -37,8 +37,22 @@ const app = express();
 const httpServer = createServer(app);
 
 // Configure CORS for both Express and Socket.IO
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://abdulbaesit.github.io"
+];
+
 const corsOptions = {
-  origin: "http://localhost:5173", // Updated to match Vite's default port
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -47,7 +61,7 @@ const corsOptions = {
 // Socket.IO setup
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173", // Updated to match Vite's default port
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
     credentials: true
   }
