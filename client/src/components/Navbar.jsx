@@ -54,7 +54,7 @@ function Navbar() {
                             <div className="relative" ref={menuRef}>
                                 <button
                                     onClick={() => setIsMenuOpen(!isMenuOpen)}
-                                    className="flex items-center space-x-2 focus:outline-none p-2 rounded-lg hover:bg-white/20 dark:hover:bg-gray-800/20 transition-colors duration-200"
+                                    className="flex items-center space-x-2 focus:outline-none p-2 rounded-lg hover:bg-white/20 bg-transparent dark:bg-gray-800/50 dark:hover:bg-gray-800/70 transition-colors duration-200"
                                 >
                                     {user?.profilePicture &&
                                         user.profilePicture !== '' &&
