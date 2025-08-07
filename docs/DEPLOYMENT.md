@@ -10,9 +10,11 @@ This guide explains how to deploy ColorGrid to various platforms.
 
 ## Environment Variables
 
+**Note**: Replace ALL placeholder values below with your actual credentials.
+
 ### Backend (.env in server folder)
 ```env
-MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/colorgrid
+MONGODB_URI=mongodb+srv://YOUR_USERNAME:YOUR_PASSWORD@YOUR_CLUSTER.mongodb.net/colorgrid
 JWT_SECRET=your-super-secret-jwt-key-here
 PORT=8000
 NODE_ENV=production
