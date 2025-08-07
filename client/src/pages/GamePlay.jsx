@@ -144,8 +144,10 @@ const GamePlay = () => {
 
     useEffect(() => {
         if (game && game.status === 'completed') {
-            axios.get('/api/users/me').then(res => {
+            axios.get('/api/users/profile').then(res => {
                 if (updateProfile) updateProfile(res.data.username, undefined, res.data.profilePicture);
+            }).catch(error => {
+                console.error('Failed to fetch updated profile:', error);
             });
         }
     }, [game && game.status]);

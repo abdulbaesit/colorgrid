@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }) => {
 
         socket.on('update_coins', async () => {
             try {
-                const res = await axios.get('/api/users/me');
+                const res = await axios.get('/api/users/profile');
                 setUser(res.data);
             } catch (err) {
                 console.error('Failed to update coins:', err);
