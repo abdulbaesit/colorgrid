@@ -72,7 +72,7 @@ const io = new Server(httpServer, {
   cors: {
     origin: function (origin, callback) {
       console.log('Socket.IO CORS check for origin:', origin);
-      
+
       // Allow requests with no origin (like mobile apps or curl requests)
       if (!origin) {
         console.log('Allowing request with no origin');
